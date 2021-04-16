@@ -14,7 +14,7 @@ class Sign(QtWidgets.QMainWindow):
         self.ui = Ui_Registration_Or_Sign()
         self.eror= QtWidgets.QErrorMessage()
         self.ui.setupUi(self)
-        self.adr = "0x0fcaa8df99cba856cf72059652c6ebb7acdbcffd"
+        self.adr = "0x991f64Ae7879bD192A89A35502ec34612AF34EB8"
         self.Cont = a.Contract(self.adr)
         self.ui.pushButton.clicked.connect(self.reg)
         self.ui.Sign.clicked.connect(self.sign)

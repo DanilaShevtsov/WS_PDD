@@ -14,10 +14,11 @@ class Contract:
         contract_address = web3.Web3.toChecksumAddress(contract_address)
         self.contract = self.w3.eth.contract(contract_address, abi=abi)
         self.u_addr = web3.Web3.toChecksumAddress(u_addr)
+        
 
     def get_auth(self, addr1):
         addr1 = web3.Web3.toChecksumAddress(addr1)
-        ans = self.contract.functions.auth(addr1).call({'from':self.u_addr})
+        ans = self.contract.functions.auth(addr1).call({})
         return ans
 
     def add_dr_pass(self, number, deadline, category):
