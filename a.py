@@ -52,7 +52,8 @@ class Contract:
     
     def reg_ins(self, value):
         """
-        Регистрирует страховку
+        Регистрирует страховку\n
+        value - деньги, которые уйдут в контракт
         """
         try:
             ans = self.contract.functions.reg_ins().transact({'from': self.u_addr, 'value': value})
