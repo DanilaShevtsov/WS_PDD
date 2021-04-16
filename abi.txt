@@ -1,0 +1,333 @@
+[
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_number",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_deadline",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_category",
+				"type": "uint256"
+			}
+		],
+		"name": "add_dr_pass",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_num_dr_pass",
+				"type": "uint256"
+			}
+		],
+		"name": "pay_compens",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_id",
+				"type": "uint256"
+			}
+		],
+		"name": "pay_fines",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "prolong_dr_pass",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_num_dr_pass",
+				"type": "uint256"
+			}
+		],
+		"name": "reg_dtp",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_num_dr_pass",
+				"type": "uint256"
+			}
+		],
+		"name": "reg_fine",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "reg_ins",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_category",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_price",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_yearsold",
+				"type": "uint256"
+			}
+		],
+		"name": "reg_transport",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_pass_hash",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_fio",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_dr_exp",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_dtp",
+				"type": "uint256"
+			}
+		],
+		"name": "registration",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address payable",
+				"name": "bank",
+				"type": "address"
+			},
+			{
+				"internalType": "address payable",
+				"name": "ins",
+				"type": "address"
+			},
+			{
+				"internalType": "address payable",
+				"name": "dps",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "dr1",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "dr2",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "hs1",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "hs2",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "hs3",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "hs4",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "hs5",
+				"type": "string"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "auth",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "dr_pass",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "deadline",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "category",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address payable",
+				"name": "owner",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "drivers",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "fio",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "dr_pass",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "dr_exp",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "dtp",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "ins",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "role",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "transports",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "category",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "price",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "yearsold",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+]
