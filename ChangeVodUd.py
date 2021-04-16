@@ -21,7 +21,7 @@ class ChangeUd(QtWidgets.QMainWindow):
     def savedan(self):
         number = int(self.ui.lineEdit.text())
         data = self.ui.lineEdit_2.text().split('.')
-        dt = datetime.date(data[0], data[1], data[2])
+        dt = datetime.date(int(data[0]), int(data[1]), int(data[2]))
         dt = dt.timestamp()        
         kateg = int(self.ui.lineEdit_3.text())
         ans = self.Cont.add_dr_pass(number, dt, kateg)
