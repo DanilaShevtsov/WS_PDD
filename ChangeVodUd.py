@@ -20,10 +20,11 @@ class ChangeUd(QtWidgets.QMainWindow):
     
     def savedan(self):
         number = int(self.ui.lineEdit.text())
-        data = self.ui.lineEdit_2.text()
-
+        data = self.ui.lineEdit_2.text().split('.')
+        dt = datetime.date(data[0], data[1], data[2])
+        dt = dt.timestamp()        
         kateg = int(self.ui.lineEdit_3.text())
-        ans = self.Cont.add_dr_pass(number, data, kateg)
+        ans = self.Cont.add_dr_pass(number, dt, kateg)
         if ans == 'Ошибка регистрации страховки':
             self.eror.setWindowTitle("Ошибка входа")
             self.eror.showMessage("Данные введены неверно.")
