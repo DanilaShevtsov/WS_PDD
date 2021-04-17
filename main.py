@@ -61,6 +61,12 @@ class Sign(QtWidgets.QMainWindow):
 
         
 class MainMenu(QtWidgets.QMainWindow):
+    kat ={
+        1: "A",
+        2: "B",
+        3: "C",
+        9: "Не указанно"
+    }
     def __init__(self, Cont=None):
         QtWidgets.QMainWindow.__init__(self)
         self.ui = Ui_MainWindow()
@@ -68,7 +74,8 @@ class MainMenu(QtWidgets.QMainWindow):
         self.ui.setupUi(self)
         self.ui.pushButton.clicked.connect(self.change_vod_ud)
         self.Cont = Cont
-        self.show()
+        self.sho()
+
 
         #self.adrus = web3.Web3.toChecksumAddress("0xb62b0d39a824fab6fb7e5915c59fe3a779765ef2")
         #self.Cont = a.Contract(self.adrus)
@@ -78,14 +85,35 @@ class MainMenu(QtWidgets.QMainWindow):
     def change_vod_ud(self):
         self.open = ChangeUd(self.Cont)
         self.open.show()
+        lis = self.Cont.get_driver(self.Cont.u_addr)
+        if not lis[1]==9:
+            lis_ud = self.Cont.get_dr_pass(lis[1])
+            self.ui.label_11.setText(str(lis[1]))
+            self.ui.label_12.setText(str(datetime.datetime.fromtimestamp(lis_ud[0])))
+            self.ui.label_13.setText(kat[lis_ud[1]])
+        else:
+            self.ui.label_11.setText("Не указано")
+            self.ui.label_12.setText("")
+            self.ui.label_13.setText("")
 
 
-    def show(self):
+    def sho(self):
         lis = self.Cont.get_driver(self.Cont.u_addr)
         self.ui.label.setText(lis[0])
         self.ui.label_8.setText(str(lis[2]))
         self.ui.label_9.setText(str(lis[3]))
         self.ui.label_10.setText(str(len(lis[4])))
+        if not lis[1]==9:
+            lis_ud = self.Cont.get_dr_pass(lis[1])
+            self.ui.label_11.setText(str(lis[1]))
+            self.ui.label_12.setText(str(datetime.datetime.fromtimestamp(lis_ud[0])))
+            print(self.kat)
+            self.ui.label_13.setText(self.kat[lis_ud[1]])
+        else:
+            self.ui.label_11.setText("Не указано")
+            self.ui.label_12.setText("")
+            self.ui.label_13.setText("")
+
         
 
 class ChangeUd(QtWidgets.QMainWindow):

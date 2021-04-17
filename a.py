@@ -124,6 +124,6 @@ class Contract:
         
 adr = web3.Web3.toChecksumAddress("0xA54A98E716855c47E172cFC7Ab5Dc482a9783c81")
 c = Contract(adr)
-print(c.get_driver(adr))
+print(c.get_dr_pass(111))
 
 
