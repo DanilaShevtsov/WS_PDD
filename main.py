@@ -80,7 +80,7 @@ class MainMenu(QtWidgets.QMainWindow):
 
 
     def show(self):
-        lis = self.Cont.get_driver()
+        lis = self.Cont.get_driver(self.Cont.u_addr)
         self.ui.label.setText(lis[0])
         self.ui.label_8.setText(lis[2])
         self.ui.label_9.setText(lis[3])
