@@ -1,7 +1,7 @@
-from logging import ERROR
 import web3
 import os
 import json
+
 
 class Contract:
     def __init__(self, u_addr=None):
@@ -36,7 +36,7 @@ class Contract:
 
     def get_driver(self, addr):
         addr = web3.Web3.toChecksumAddress(addr)
-        ans = self.contract.functions.drivers(addr).call({'from':self.u_addr})
+        ans = self.contract.functions.get_driver(addr).call({'from':self.u_addr})
         return ans
 
     def reg_transport(self, category, price, yearsold):
@@ -69,7 +69,8 @@ class Contract:
         ans = self.contract.functions.reg_fine(num_dr_pass).transact('from')
         return ans
         
-adr = web3.Web3.toChecksumAddress("0xb62b0d39a824fab6fb7e5915c59fe3a779765ef2")
+adr = web3.Web3.toChecksumAddress("0xA54A98E716855c47E172cFC7Ab5Dc482a9783c81")
 c = Contract(adr)
 print(c.get_driver(adr))
+
 
