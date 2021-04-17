@@ -36,7 +36,7 @@ class Contract:
 
     def get_driver(self, addr):
         addr = web3.Web3.toChecksumAddress(addr)
-        ans = self.contract.functions.drivers(addr).call({'from':self.u_addr})
+        ans = self.contract.functions.get_driver(addr).call({'from':self.u_addr})
         return ans
 
     def reg_transport(self, category, price, yearsold):
