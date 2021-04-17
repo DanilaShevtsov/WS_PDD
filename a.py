@@ -4,7 +4,7 @@ import os
 import json
 
 class Contract:
-    def __init__(self, u_addr):
+    def __init__(self, u_addr=None):
         self.w3 = web3.Web3(web3.HTTPProvider('http://192.168.0.2:8545'))
         with open(f'{os.path.dirname(__file__)}/abi.txt', 'r') as f:
             abi = json.load(f)
@@ -13,12 +13,12 @@ class Contract:
             contract_address = f.read()
         contract_address = web3.Web3.toChecksumAddress(contract_address)
         self.contract = self.w3.eth.contract(contract_address, abi=abi)
-        self.u_addr = web3.Web3.toChecksumAddress(u_addr)
+        self.u_addr=u_addr
         
 
     def get_auth(self, addr1):
         addr1 = web3.Web3.toChecksumAddress(addr1)
-        ans = self.contract.functions.auth(addr1).call({})
+        ans = self.contract.functions.auth(addr1).call()
         return ans
 
     def add_dr_pass(self, number, deadline, category):
@@ -27,7 +27,7 @@ class Contract:
 
     def registration(self, pass_hash, fio, dr_exp, dtp, addr):
         addr = web3.Web3.toChecksumAddress(addr)
-        ans = self.contract.functions.registration(pass_hash, fio, dr_exp, dtp).transact({'from':self.u_addr})
+        ans = self.contract.functions.registration(pass_hash, fio, dr_exp, dtp).transact({'from':addr})
         return ans
 
     def get_dr_pass(self, number):

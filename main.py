@@ -14,8 +14,8 @@ class Sign(QtWidgets.QMainWindow):
         self.ui = Ui_Registration_Or_Sign()
         self.eror= QtWidgets.QErrorMessage()
         self.ui.setupUi(self)
-        self.adr = "0x991f64Ae7879bD192A89A35502ec34612AF34EB8"
-        self.Cont = a.Contract(self.adr)
+
+        self.Cont = a.Contract()
         self.ui.pushButton.clicked.connect(self.reg)
         self.ui.Sign.clicked.connect(self.sign)
     
@@ -39,13 +39,13 @@ class Sign(QtWidgets.QMainWindow):
             self.eror.showMessage("Пароли не совпадают")   
 
 
-
     def sign(self):
         password_sign = self.ui.Password_sign.text()
         address_sign = self.ui.Addres_Sign.text()
         hash_sign = hashlib.sha256(password_sign.encode()).hexdigest()
         if hash_sign == self.Cont.get_auth(address_sign):
-            self.open = MainMenu()
+            self.Cont.u_addr = web3.Web3.toChecksumAddress(address_sign)
+            self.open = MainMenu(self.Cont)
             self.open.show()
             self.close()
         else:
