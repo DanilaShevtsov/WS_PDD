@@ -35,7 +35,8 @@ class Sign(QtWidgets.QMainWindow):
             hash1 = hashlib.sha256(password_two.encode()).hexdigest()
             address = web3.Web3.toChecksumAddress(address)
             self.Cont.registration(hash1, fio, stag, kol_DTP, address)
-            self.open = MainMenu()
+            self.Cont.u_addr=address
+            self.open = MainMenu(self.Cont)
             self.open.show()
             self.close()
         else:
@@ -66,7 +67,8 @@ class MainMenu(QtWidgets.QMainWindow):
         self.eror= QtWidgets.QErrorMessage()
         self.ui.setupUi(self)
         self.ui.pushButton.clicked.connect(self.change_vod_ud)
-        #self.Cont = Cont
+        self.Cont = Cont
+
         #self.adrus = web3.Web3.toChecksumAddress("0xb62b0d39a824fab6fb7e5915c59fe3a779765ef2")
         #self.Cont = a.Contract(self.adrus)
 
@@ -74,8 +76,16 @@ class MainMenu(QtWidgets.QMainWindow):
     
     def change_vod_ud(self):
         self.open = ChangeUd(self.Cont)
-        self.open.show()      
+        self.open.show()
 
+
+    def show(self):
+        lis = self.Cont.get_driver()
+        self.ui.label.setText(lis[0])
+        self.ui.label_8.setText(lis[2])
+        self.ui.label_9.setText(lis[3])
+        self.ui.label_10.setText(lis[4])
+        
 
 class ChangeUd(QtWidgets.QMainWindow):
     def __init__(self, Cont=None):

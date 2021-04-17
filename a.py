@@ -69,4 +69,7 @@ class Contract:
         ans = self.contract.functions.reg_fine(num_dr_pass).transact('from')
         return ans
         
+adr = web3.Web3.toChecksumAddress("0xb62b0d39a824fab6fb7e5915c59fe3a779765ef2")
+c = Contract(adr)
+print(c.get_driver(adr))
 
