@@ -68,6 +68,7 @@ class MainMenu(QtWidgets.QMainWindow):
         self.ui.setupUi(self)
         self.ui.pushButton.clicked.connect(self.change_vod_ud)
         self.Cont = Cont
+        self.show()
 
         #self.adrus = web3.Web3.toChecksumAddress("0xb62b0d39a824fab6fb7e5915c59fe3a779765ef2")
         #self.Cont = a.Contract(self.adrus)
@@ -82,9 +83,9 @@ class MainMenu(QtWidgets.QMainWindow):
     def show(self):
         lis = self.Cont.get_driver(self.Cont.u_addr)
         self.ui.label.setText(lis[0])
-        self.ui.label_8.setText(lis[2])
-        self.ui.label_9.setText(lis[3])
-        self.ui.label_10.setText(lis[4])
+        self.ui.label_8.setText(str(lis[2]))
+        self.ui.label_9.setText(str(lis[3]))
+        self.ui.label_10.setText(str(len(lis[4])))
         
 
 class ChangeUd(QtWidgets.QMainWindow):
