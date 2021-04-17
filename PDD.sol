@@ -1,158 +1,138 @@
-pragma solidity >=0.7.0 <=0.8.0;
+pragma solidity ^0.7.0;
 pragma abicoder v2;
 
 /*
-    1 - Государственный банк
-    2 - Страховая компания
-    3 - Сотрудник ДПС
+1 - Банк
+2 - СтрКмп
+3 - ДПС
+0 - Юзер
 */
 
+/*
+A - 1
+B - 2
+C - 3
+9 - Net prav
+*/
 contract PDD{
     struct Transport{
-        string category;
+        uint category;
         uint price;
-        uint age;
+        uint yearsold;
     }
     
     struct Driver{
         string fio;
-        uint d_exp;
+        uint dr_pass;
+        uint dr_exp;
         uint dtp;
         uint[] fines;
-        uint insurance;
-        Driver_pass d_pass;
+        uint ins;
     }
     
-    struct Driver_pass{
-        address owner;
-        uint number;
+    struct DriverPass{
         uint deadline;
-        string category;
+        uint category;
+        address payable owner;
     }
     
-    address payable public _owner;
+    mapping(address => uint) public role;
+    mapping(address => Driver) public drivers;
+    mapping(uint => DriverPass) public dr_pass;
+    mapping(address => string) public auth;
+    mapping(address => Transport) public transports;
     
-    constructor () public{
-        _owner = msg.sender;
-    }
+    uint[] void = [0];
+    address payable BANK;
+    address payable INS;
+    address DPS;
     
-    modifier onlyOwner {
-        require (msg.sender == _owner, "Only for owner");
-        _;
-    }
-    
-    modifier onlyDPS {
-        require (u_roles[msg.sender] == 3, "You are not DPS man");
-        _;
-    }
-    
-    modifier onlyIns {
-        require (u_roles[msg.sender] == 2, "You are not DPS man");
-        _;
-    }
-    
-    mapping(address => uint) u_roles;
-    mapping(address => Driver) drivers;
-    mapping(address => Driver_pass) d_pass;
-    mapping(address => Transport[]) u_transport;
-    mapping(uint => address payable) d_pass_to_user;
-    Driver_pass[] uncomfirmed;
-    address payable [] to_paying;
-    
-    function get_dr_info() public view returns(Driver memory){
-        return drivers[msg.sender];
-    }
-    
-    function set_role(address _user, uint _role) public onlyOwner{
-        u_roles[_user] = _role;
-    }
-    
-    function reg_driver(string memory _fio, uint16 _d_exp, uint16 _dtp, uint[] memory _fines, uint8 _num_pass, uint _deadline, string memory _category) public {
-        require(u_roles[msg.sender] != 1, "You can't be a driver");
-        require(u_roles[msg.sender] != 2, "You can't be a driver");
-        drivers[msg.sender] = Driver(_fio, _d_exp, _dtp, _fines, 0, Driver_pass(msg.sender, _num_pass, _deadline, _category));
-    }
-    
-    function reg_dr_pass(uint _number, uint _deadline, string memory _category) public{
-        uncomfirmed.push(Driver_pass(msg.sender, _number, _deadline, _category));
-    }
-    
-    function confirm_pass(uint _id) public onlyDPS{
-        Driver_pass memory passport = uncomfirmed[_id];
-        uncomfirmed[_id] = Driver_pass(address(0), 0, 0, "0");
-        d_pass[passport.owner] = passport;
-        drivers[passport.owner].d_pass = passport;
-        d_pass_to_user[passport.number] = msg.sender;
+    constructor(address payable bank, address payable ins, address payable dps, address dr1, address dr2, string memory hs1, string memory hs2, string memory hs3, string memory hs4, string memory hs5){
+        
+        role[bank] = 1;
+        role[ins] = 2;
+        role[dps] = 3;
+        drivers[dps] = Driver("Ivanov Ivan Ivanovich", 9, 2, 0, void, 0);
+        drivers[dr1] = Driver("Semenov Semen Semenovich", 9, 5, 0, void, 0);
+        drivers[dr2] = Driver("Petrov Petr Petrovich", 9, 10, 3, void, 0);
+        auth[bank] = hs1;
+        auth[ins] = hs2;
+        auth[dps] = hs3;
+        auth[dr1] = hs4;
+        auth[dr2] = hs5;
+        dr_pass[0] = DriverPass(1610312400, 1, address(0));
+        dr_pass[111] = DriverPass(1746997200, 2, address(0));
+        dr_pass[222] = DriverPass(1599598800, 3, address(0));
+        dr_pass[333] = DriverPass(1802466000, 1, address(0));
+        dr_pass[444] = DriverPass(1796936400, 2, address(0));
+        dr_pass[555] = DriverPass(1876942800, 3, address(0));
+        dr_pass[666] = DriverPass(1901134800, 1, address(0));
+        BANK = bank;
+        INS = ins;
+        DPS = dps;
     }
 
-    function get_unpass() public view returns(Driver_pass[] memory){
-        return uncomfirmed;
+    
+    function registration(string memory _pass_hash, string memory _fio, uint _dr_exp, uint _dtp) public{
+        auth[msg.sender] = _pass_hash;
+        drivers[msg.sender] = Driver(_fio, 9, _dr_exp, _dtp, void, 0);
     }
     
-    function get_dr_pass() public view returns(Driver_pass memory){
-        return d_pass[msg.sender];
+    function add_dr_pass(uint _number, uint _deadline, uint _category) public{
+        require(dr_pass[_number].deadline == _deadline, "Wrong deadline");
+        require(dr_pass[_number].category == _category, "Wrong category");
+        require(dr_pass[_number].owner == address(0), "Already used");
+        require(dr_pass[_number].deadline != 0, "Doesn't exist");
+        drivers[msg.sender].dr_pass = _number;
+        dr_pass[_number].owner = msg.sender;
     }
     
-    function reg_transpot(string memory _category, uint _price, uint _age) public{
-        require(keccak256(bytes(d_pass[msg.sender].category)) == keccak256(bytes(_category)), "Unsuitable category");
-        u_transport[msg.sender].push(Transport(_category, _price, _age));
+    function reg_transport(uint _category, uint _price, uint _yearsold) public{
+        uint pass = drivers[msg.sender].dr_pass;
+        require(dr_pass[pass].category == _category, "Wrong category");
+        transports[msg.sender] = Transport(_category, _price, _yearsold);
     }
     
-    function update_pass_life() public{
-        Driver_pass memory passport = d_pass[msg.sender];
-        require(passport.deadline <= block.timestamp+30*24*60*60);
-        require(drivers[msg.sender].fines.length == 0);
-        d_pass[msg.sender].deadline = block.timestamp+10*12*30*5;
-        drivers[passport.owner].d_pass = passport;
+    function prolong_dr_pass() public{
+        Driver memory dr = drivers[msg.sender];
+        require(block.timestamp + 30*24*60*60 <= dr_pass[dr.dr_pass].deadline);
+        require(dr.fines.length == 0, "You have fines");
+        dr_pass[dr.dr_pass].deadline += 365 days;
     }
     
-    function fines_paying(uint _id) public payable{
-        uint price = 10 ether;
-        if (drivers[msg.sender].fines[_id]+5*5 < block.timestamp){
-            price /= 2; 
+    function pay_fines(uint _id) public payable{
+        uint to_pay = 10 ether;
+        if (block.timestamp <= drivers[msg.sender].fines[_id] + 5 days){
+            to_pay = 5 ether;
         }
-        
-        require(msg.value == price, "Not enough money");
-        drivers[msg.sender].fines[_id] = 0;
+        require(msg.value == to_pay, "Not enough money");
+        BANK.transfer(msg.value);
     }
     
-    function get_fines() public view returns(uint[] memory){
-        return drivers[msg.sender].fines;
+    function reg_ins() public payable{
+        INS.transfer(msg.value);
+        drivers[msg.sender].ins = msg.value;
     }
     
-    function insurance(uint _t_id, address payable _ins_comp) public payable{
-        Transport memory transport = u_transport[msg.sender][_t_id];
-        Driver memory driver = drivers[msg.sender];
-        uint fines = 0;
-        for (uint8 i = 0; i < driver.fines.length; i++){
-            if (driver.fines[i] !=0)
-                fines++;
+    function reg_fine(uint _num_dr_pass) public{
+        require(role[msg.sender] == 3, "You aren't dpsman");
+        drivers[dr_pass[_num_dr_pass].owner].fines.push(block.timestamp);
+    }
+    
+    function reg_dtp(uint _num_dr_pass) public{
+        require(role[msg.sender] == 3, "You aren't dpsman");
+        drivers[dr_pass[_num_dr_pass].owner].dtp += 1;
+    }
+    
+    function pay_compens(uint _num_dr_pass) public{
+        require(role[msg.sender] == 2, "You aren't Ins company");
+        if  (drivers[dr_pass[_num_dr_pass].owner].ins > 0){
+            dr_pass[_num_dr_pass].owner.transfer(drivers[dr_pass[_num_dr_pass].owner].ins * 10);
         }
-        
-        uint price = transport.price*(uint(1-transport.age)/10+fines/5+driver.dtp-driver.d_exp/5);
-        require(price == msg.value);
-        require(u_roles[_ins_comp] == 2, "Not a insurance company");
-        _ins_comp.transfer(msg.value);
-        drivers[msg.sender].insurance=price;
     }
     
-    function add_fine(uint _pass_num) public onlyDPS{
-        address owner = d_pass_to_user[_pass_num];
-        drivers[owner].fines.push(block.timestamp);
+    function get_driver(address user) public view returns(Driver memory){
+        return drivers[user];
     }
-    
-    function add_dtp(uint _pass_num) public onlyDPS{
-        address payable owner = d_pass_to_user[_pass_num];
-        if (drivers[owner].insurance != 0){
-            to_paying.push(owner);
-        }
-        drivers[owner].dtp++;
-    }
-    
-    function paying_ins(uint _id) public payable onlyIns {
-        address payable owner = to_paying[_id];
-        to_paying[_id] = address(0);
-        owner.transfer(drivers[owner].insurance*10);
-    }
-    
 }
+
