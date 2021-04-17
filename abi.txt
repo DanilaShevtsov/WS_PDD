@@ -337,6 +337,57 @@
 		"inputs": [
 			{
 				"internalType": "address",
+				"name": "user",
+				"type": "address"
+			}
+		],
+		"name": "get_driver",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "string",
+						"name": "fio",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "dr_pass",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "dr_exp",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "dtp",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "fines",
+						"type": "uint256[]"
+					},
+					{
+						"internalType": "uint256",
+						"name": "ins",
+						"type": "uint256"
+					}
+				],
+				"internalType": "struct PDD.Driver",
+				"name": "",
+				"type": "tuple"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
 				"name": "",
 				"type": "address"
 			}
