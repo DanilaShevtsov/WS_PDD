@@ -90,7 +90,7 @@ class MainMenu(QtWidgets.QMainWindow):
             lis_ud = self.Cont.get_dr_pass(lis[1])
             self.ui.label_11.setText(str(lis[1]))
             self.ui.label_12.setText(str(datetime.datetime.fromtimestamp(lis_ud[0])))
-            self.ui.label_13.setText(kat[lis_ud[1]])
+            self.ui.label_13.setText(self.kat[lis_ud[1]])
         else:
             self.ui.label_11.setText("Не указано")
             self.ui.label_12.setText("")
